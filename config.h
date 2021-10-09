@@ -39,13 +39,12 @@ typedef struct {
 	const void *cmd;
 } Sp;
 //                    , NS "terminal" (myTerminal ++ " --name scratchpad") (appName =? "scratchpad") defaultFloating
-const char *scratchtermcmd[] = { TERMINAL, "--name", "term-scratchpad", "-o", "initial_window_height=400", NULL };
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"keepassxc", NULL };
+const char *scratchtermcmd[] = { TERMINAL, "--name", "term-scratchpad", "-o", "initial_window_height=600", NULL };
+const char *spotifycmd[] = { "spotify", "--force-device-scale-factor=2.0", NULL };
 static Sp scratchpads[] = {
 	/* name               cmd  */
-	{"term-scratchpad",   scratchtermcmd},
+	{"term-scratchpad",     scratchtermcmd},
+	{"spotify-scratchpad",  spotifycmd},
 };
 
 
@@ -61,7 +60,8 @@ static const Rule rules[] = {
 	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ NULL,       NULL,	                NULL,       0,            False,       -1 },
-	{ NULL,		  "term-scratchpad",    NULL,		SPTAG(0),     1,           -1 },
+	{ NULL,       "term-scratchpad",    NULL,		SPTAG(0),     1,           -1 },
+	{ "Spotify",  NULL,                 NULL,		SPTAG(1),     1,           -1 },
 };
 
 /* layout(s) */
@@ -146,6 +146,7 @@ static Key keys[] = {
 
 	// Scratchpads
 	{ MODKEY,            			XK_F12,    togglescratch,  {.ui = 0 } },
+	{ MODKEY|ShiftMask,   			XK_s,      togglescratch,  {.ui = 1 } },
 
 	// Misc Controls
 	{ MODKEY,                       XK_b,      togglebar,      {0} },              // Toggle status bar
