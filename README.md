@@ -33,7 +33,6 @@ This is my fork
    - [Store/retrieve tags on an xprop](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) - I think this should "save" the tagset of windows between restarts for things like firefox
    - [autostart](https://dwm.suckless.org/patches/autostart/) or [cool autostart](https://dwm.suckless.org/patches/cool_autostart/)
    - [swallow](https://dwm.suckless.org/patches/swallow/) or [dynamic swallow](https://dwm.suckless.org/patches/dynamicswallow/)
-   - [noborder](https://dwm.suckless.org/patches/noborder/) or [smart border](https://dwm.suckless.org/patches/smartborders/) or [removeborder](https://dwm.suckless.org/patches/removeborder/)
    - [shiftview.c](https://lists.suckless.org/dev/att-7590/shiftview.c)
    - [systray](https://dwm.suckless.org/patches/systray/)
    - [Single shared tagset between monitors](https://dwm.suckless.org/patches/single_tagset/) - Might not be feasable
