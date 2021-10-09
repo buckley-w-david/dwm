@@ -5,55 +5,36 @@
 
 /* XMonad Migration TODO
  * Important
- * - tag names
  * - auto float some stuff
  * - window border should be red (colours in general)
  * - scratchpads
- * - Scripts
- *   - M-c spawn "scripts/dmenu_python"
- *   - M-o spawn "scripts/open"
- *   - M-. spawn "scripts/emoji"
- * - Pass
- *   - M-S-p spawn "pmenu --type"
- *   - M-C-p spawn "passmenu --type"
- *   - M-M1-p spawn "passmenu"
- * - Media
- *   - <XF86AudioMute>         spawn "scripts/vol-ctl toggle"
- *   - <XF86AudioRaiseVolume>  spawn "scripts/vol-ctl up"
- *   - <XF86AudioLowerVolume>  spawn "scripts/vol-ctl down"
- *
- *   - <XF86AudioPrev>         spawn "playerctl previous"
- *   - <XF86AudioNext>         spawn "playerctl next"
- *   - <XF86AudioStop>         spawn "playerctl stop"
- *   - <XF86AudioPlay>         spawn "playerctl play-pause"
+ * - Migrate xmobar (Conky?)
+ * - FocusFollowsMouse off
+ * - Run Starup script - Migrate it into startdwm or .xinitrc
  * - Applications
  *   - <Print>        , spawn "maim -s | xclip -selection clipboard -t image/png"
  *   - M-<Print>      , spawn "maim -i $((16#$(xwininfo | grep \"Window id\" | awk '{print $4}' | cut -c3-))) ~/Pictures/Screenshots/$(date +%s).png"
  *   - M-C-<Print>    , spawn "/home/david/scripts/pinta-ss"
  *   - M-S-s          , namedScratchpadAction myScratchPads "spotify"
  *   - M-<F12>        , namedScratchpadAction myScratchPads "terminal"
- *   - M-w            , spawn "firefox-developer-edition"
- *   - M-e            , spawn "rox"
- *   - M-z            , spawn "/home/david/scripts/obsidian.sh"
- *   - M-M1-r         , spawn "/home/david/scripts/toggle-ruler"
- *   - M-M1-c         , spawn "/home/david/scripts/turbo"
- * - Migrate xmobar (Conky?)
- * - FocusFollowsMouse off
- * - Run Starup script
- * - Dynamic tag bindings
+ * Misc
+ *  - Dynamic tag bindings
  *   - M-v - Create new workspace by string from dmenu
  *   - M-S-v - Move current window to tag by string from dmenu
  *   - M-m - Create new tag from title of current window (meh)
  *   - M-backspace - Delete current tag (meh)
  *   - M-S-r - Rename tag by string from dmenu
- * Misc
  *  - left/right arrow to move tags left/right
- *  - banish mouse to lower left corner
  *  - Remove all tags from window except current viewed one(s?)
  */
 
+#include <X11/XF86keysym.h>
+
 #include "dwm.h"
 
+#define TERMINAL     "kitty"
+#define BROWSER      "firefox-developer-edition"
+#define FILE_EXPLORER "rox"
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -64,23 +45,20 @@ static const char *fonts[] = {
 	"Icons:size=10"
 };
 static const char dmenufont[]       = "Iosevka:size=10";
-// static const char *fonts[]          = { "xft:Monospace:pixelsize=20" };
-// static const char dmenufont[]       = "xft:Monospace:pixelsize=20";
-// static const char *fonts[]          = { "monospace:size=10" };
-// static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static const char normbgcolor[]     = "#222222";
+static const char normbordercolor[] = "#444444";
+static const char normfgcolor[]     = "#bbbbbb";
+static const char selfgcolor[]      = "#eeeeee";
+static const char selbordercolor[]  = "#770000";
+static const char selbgcolor[]      = "#005577";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	/*               fg           bg           border   */
+	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+	[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1:main", "2:main", "3:comms", "4:media", "5:dev", "6:dev", "7:dev", "8:games", "9:games" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -88,15 +66,16 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+    { NULL,       NULL,       NULL,       0,            False,       -1 },
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const float mfact        = 0.55; /* factor of master area size [0.05..0.95] */
+static const int nmaster        = 1;    /* number of clients in master area */
+static const int resizehints    = 0;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1;    /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -117,13 +96,56 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run_history", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *dmenucmd[] = { "dmenu_run_history", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]  = { TERMINAL, NULL };
+
+#define SCRIPT(COMMAND) { "/home/david/scripts/"#COMMAND, NULL }
+#define VOLCTL(COMMAND) { "/home/david/scripts/vol-ctl", COMMAND, NULL }
+#define PLAYERCTL(COMMAND) { "playerctl", COMMAND, NULL }
+
+// Media Commands
+static const char *volupcmd[]   = VOLCTL("up");
+static const char *voldowncmd[] = VOLCTL("down");
+static const char *volmutecmd[] = VOLCTL("toggle");
+
+static const char *nextcmd[] = PLAYERCTL("next");
+static const char *prevcmd[] = PLAYERCTL("previous");
+static const char *stopcmd[] = PLAYERCTL("stop");
+static const char *ppcmd[]   = PLAYERCTL("play-pause");
+
+// Pass Commands
+static const char *pmenucmd[]        = { "/home/david/scripts/pmenu", "--type", NULL };
+static const char *passmenutypecmd[] = { "passmenu", "--type", NULL };
+static const char *passmenucmd[]     = { "passmenu", NULL };
+
+// Scripts
+static const char *obsidiancmd[] = SCRIPT("obsidian.sh");
+static const char *rulercmd[]    = SCRIPT("toggle-ruler");
+static const char *turbocmd[]    = SCRIPT("turbo");
+static const char *pythoncmd[]   = SCRIPT("dmenu_python");
+static const char *opencmd[]     = SCRIPT("open");
+static const char *emojicmd[]    = SCRIPT("emoji");
+
+// Applications
+static const char *browsercmd[]     = { BROWSER, NULL };
+static const char *filecmd[]        = { FILE_EXPLORER, NULL };
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } }, // Spawn dmenu_run_history
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },  // Spawn terminal
+
+    // Applications
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },   // Spawn dmenu_run_history
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },    // Spawn terminal
+	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = filecmd } },
+
+    // Pass
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pmenucmd } },
+	{ MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenutypecmd } },
+	{ MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = passmenucmd } },
+
+    // Misc Controls
 	{ MODKEY,                       XK_b,      togglebar,      {0} },              // Toggle status bar
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },       // Move focus down
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },       // Move focus up
@@ -139,9 +161,30 @@ static Key keys[] = {
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },      // View all windows from all tags (I think)
 //	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },      // Give current window all tags (unsigned complement of 0 is 111...)
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },       // Move focus one monitor to the left
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },       // Move focus one monitor to the right
+//	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },       // Move focus one monitor to the right - I only have 1 monitor
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },       // Move the focused window to the monitor to the left
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },       // Move the focused window to the monitor to the right
+
+    // scripts
+	{ MODKEY,                       XK_c,      spawn,          {.v = pythoncmd } },   // spawn python dmenu prompt
+	{ MODKEY,                       XK_o,      spawn,          {.v = opencmd } },     // spawn open script
+	{ MODKEY,                       XK_period, spawn,          {.v = emojicmd } },    // spawn emoji script
+	{ MODKEY,                       XK_z,      spawn,          {.v = obsidiancmd } }, // spawn obsidian script
+	{ MODKEY|Mod1Mask,              XK_r,      spawn,          {.v = rulercmd } },    // spawn ruler script
+	{ MODKEY|Mod1Mask,              XK_c,      spawn,          {.v = turbocmd } },    // spawn tubro script
+
+    // Media
+    // NOTE: 0 as the modifier might be wrong, it's a guess
+	{ 0,                            XF86XK_AudioMute,        spawn,   {.v = volmutecmd } }, // mute volume
+	{ 0,                            XF86XK_AudioRaiseVolume, spawn,   {.v = volupcmd } },   // raise volume
+	{ 0,                            XF86XK_AudioLowerVolume, spawn,   {.v = voldowncmd } }, // lower volume
+	{ 0,                            XF86XK_AudioNext,        spawn,   {.v = nextcmd } },    // lower volume
+	{ 0,                            XF86XK_AudioPrev,        spawn,   {.v = prevcmd } },    // lower volume
+	{ 0,                            XF86XK_AudioStop,        spawn,   {.v = stopcmd } },    // lower volume
+	{ 0,                            XF86XK_AudioPlay,        spawn,   {.v = ppcmd } },      // lower volume
+
+
+    // Tags
 	TAGKEYS(                        XK_1,                      0)                  // Show tag 0
 	TAGKEYS(                        XK_2,                      1)                  // Show tag 1
 	TAGKEYS(                        XK_3,                      2)                  // Show tag 2
@@ -151,19 +194,19 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)                  // Show tag 6
 	TAGKEYS(                        XK_8,                      7)                  // Show tag 7
 	TAGKEYS(                        XK_9,                      8)                  // Show tag 8
+
+    // Quit
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },              // DIE!
+
+    // Custom
+    { MODKEY|ShiftMask,             XK_b,      banishpointer,  {0} },
 };
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} }, // Left click layout symbol to toggle
-//	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} }, // Middle click window title to zoom
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } }, // What is StatusText?
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} }, // MOD + left click to move a window following the mouse
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} }, // MOD + middle click to toggle floating
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} }, // MOD + right click to resize following the mouse
 	{ ClkTagBar,            0,              Button1,        view,           {0} }, // click a tag to view it
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} }, // right click a tag to toggle viewing it

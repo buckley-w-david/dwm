@@ -1925,3 +1925,10 @@ main(int argc, char *argv[])
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
+
+void
+banishpointer(const Arg *arg) {
+    XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->ww - borderpx,
+            selmon->wh + bh - borderpx);
+    XFlush(dpy);
+}
