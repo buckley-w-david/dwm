@@ -92,7 +92,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run_history", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
 
-#define SCRIPT(COMMAND) { "/home/david/scripts/"#COMMAND, NULL } // TODO: This is broken, puts quotes around the command in the string itself
+#define SCRIPT_DIR "/home/david/scripts/"
+#define SCRIPT(COMMAND) { SCRIPT_DIR COMMAND, NULL }
 #define VOLCTL(COMMAND) { "/home/david/scripts/vol-ctl", COMMAND, NULL }
 #define PLAYERCTL(COMMAND) { "playerctl", COMMAND, NULL }
 
