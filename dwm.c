@@ -1421,6 +1421,7 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
+
 void
 tile(Monitor *m)
 {
@@ -1933,4 +1934,56 @@ banishpointer(const Arg *arg) {
 	XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->ww - borderpx,
 			selmon->wh + bh - borderpx);
 	XFlush(dpy);
+}
+
+/* My Functions */
+
+// Move client to other monitor, but keep tags
+void swapmon(const Arg *arg)
+{
+	if (!selmon->sel || !mons->next)
+		return;
+
+	Client *c = selmon->sel;
+	Monitor *m = dirtomon(arg->i);
+
+	// sendmon except keep tags the same
+	// TODO: Should this be a function/a patch the the existing sendmon function
+	if (c->mon == m)
+		return;
+	unfocus(c, 1);
+	detach(c);
+	detachstack(c);
+	c->mon = m;
+	attach(c);
+	attachstack(c);
+	focus(NULL);
+	arrange(NULL);
+}
+
+// Smash tag and tagmon together, except always dirtomon(1)
+// TODO: Use a struct to be able to specify both tag and monitor direction
+void tagtagmon(const Arg *arg)
+{
+	if (!selmon->sel || !mons->next)
+		return;
+
+	if (selmon->sel && arg->ui & TAGMASK) {
+		Client *c = selmon->sel;
+		Monitor *m = dirtomon(1);
+
+		// sendmon except don't use the currently selected tags from the other monitor
+		// TODO: Should this be a function/a patch the the existing sendmon function
+		if (c->mon == m)
+			return;
+		unfocus(c, 1);
+		detach(c);
+		detachstack(c);
+		c->mon = m;
+		c->tags = arg->ui & TAGMASK;
+		attach(c);
+		attachstack(c);
+		focus(NULL);
+		arrange(NULL);
+	}
 }

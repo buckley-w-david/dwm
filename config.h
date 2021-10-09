@@ -80,8 +80,8 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      tagtagmon,      {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
@@ -92,7 +92,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run_history", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
 
-#define SCRIPT(COMMAND) { "/home/david/scripts/"#COMMAND, NULL }
+#define SCRIPT(COMMAND) { "/home/david/scripts/"#COMMAND, NULL } // TODO: This is broken, puts quotes around the command in the string itself
 #define VOLCTL(COMMAND) { "/home/david/scripts/vol-ctl", COMMAND, NULL }
 #define PLAYERCTL(COMMAND) { "playerctl", COMMAND, NULL }
 
@@ -129,6 +129,7 @@ static const char *rebootcmd[]    = { "shutdown", "-r", "now", NULL };
 static const char *shutdowncmd[]  = { "shutdown", "-h", "now", NULL };
 
 
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 
@@ -162,7 +163,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },      // View all windows from all tags (I think)
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },       // Move focus one monitor to the left
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },       // Move the focused window to the monitor to the left
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },       // Move the focused window to the monitor to the right
 
 	// scripts
 	{ MODKEY,                       XK_c,      spawn,          {.v = pythoncmd } },   // spawn python dmenu prompt
@@ -192,6 +192,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)                  // Show tag 6
 	TAGKEYS(                        XK_8,                      7)                  // Show tag 7
 	TAGKEYS(                        XK_9,                      8)                  // Show tag 8
+	{ MODKEY,                       XK_m,                      swapmon,      {.i = 1 } }, // Swap current client to right monitor, retain tags
 
 	// Exit
 	// TODO: Recompile and restart

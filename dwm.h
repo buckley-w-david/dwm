@@ -202,6 +202,8 @@ static void togglescratch(const Arg *arg);
 
 /* my functions */
 static void banishpointer();
+static void tagtagmon(const Arg *arg);
+static void swapmon(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
