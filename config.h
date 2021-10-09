@@ -106,8 +106,9 @@ static const char *browsercmd[]     = { BROWSER, NULL };
 static const char *filecmd[]        = { FILE_EXPLORER, NULL };
 
 // Exit
-static const char *rebootcmd[]     = { "shutdown", "-r", "now", NULL };
-static const char *shutdowncmd[]    = { "shutdown", "-h", "now", NULL };
+static const char *quitcmd[]      = { "killall", "startdwm", NULL };
+static const char *rebootcmd[]    = { "shutdown", "-r", "now", NULL };
+static const char *shutdowncmd[]  = { "shutdown", "-h", "now", NULL };
 
 
 static Key keys[] = {
@@ -174,6 +175,7 @@ static Key keys[] = {
 	// Exit
 	// TODO: Recompile and restart
 	{ MODKEY,                       XK_q,        quit,           {0} },                 // restart dwm
+	{ MODKEY|ShiftMask,             XK_q,        spawn,          {.v = quitcmd } },                 // quit dwm
 	{ MODKEY|ControlMask,           XK_Insert,   spawn,          {.v = rebootcmd  } },  // reboot computer
 	{ MODKEY|ControlMask,           XK_Delete,   quit,           {.v = shutdowncmd } }, // shutdown computer
 
