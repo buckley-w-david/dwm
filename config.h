@@ -18,7 +18,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const int focusonwheel       = 0;
 static const char *fonts[] = {
 	"Iosevka:size=10",
-	"Icons:size=10"
+    "FontAwesome:size=10",
 };
 static const char dmenufont[]       = "Iosevka:size=10";
 static const char normbgcolor[]     = "#222222";
