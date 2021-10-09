@@ -3,31 +3,6 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
-/* XMonad Migration TODO
- * Important
- * - auto float some stuff
- * - window border should be red (colours in general)
- * - scratchpads
- * - Migrate xmobar (Conky?)
- * - FocusFollowsMouse off
- * - Run Starup script - Migrate it into startdwm or .xinitrc
- * - Applications
- *   - <Print>        , spawn "maim -s | xclip -selection clipboard -t image/png"
- *   - M-<Print>      , spawn "maim -i $((16#$(xwininfo | grep \"Window id\" | awk '{print $4}' | cut -c3-))) ~/Pictures/Screenshots/$(date +%s).png"
- *   - M-C-<Print>    , spawn "/home/david/scripts/pinta-ss"
- *   - M-S-s          , namedScratchpadAction myScratchPads "spotify"
- *   - M-<F12>        , namedScratchpadAction myScratchPads "terminal"
- * Misc
- *  - Dynamic tag bindings
- *   - M-v - Create new workspace by string from dmenu
- *   - M-S-v - Move current window to tag by string from dmenu
- *   - M-m - Create new tag from title of current window (meh)
- *   - M-backspace - Delete current tag (meh)
- *   - M-S-r - Rename tag by string from dmenu
- *  - left/right arrow to move tags left/right
- *  - Remove all tags from window except current viewed one(s?)
- */
-
 #include <X11/XF86keysym.h>
 
 #include "dwm.h"
@@ -68,7 +43,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-    { NULL,       NULL,       NULL,       0,            False,       -1 },
+	{ NULL,       NULL,       NULL,       0,            False,       -1 },
 };
 
 /* layout(s) */
@@ -130,22 +105,26 @@ static const char *emojicmd[]    = SCRIPT("emoji");
 static const char *browsercmd[]     = { BROWSER, NULL };
 static const char *filecmd[]        = { FILE_EXPLORER, NULL };
 
+// Exit
+static const char *rebootcmd[]     = { "shutdown", "-r", "now", NULL };
+static const char *shutdowncmd[]    = { "shutdown", "-h", "now", NULL };
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 
-    // Applications
+	// Applications
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },   // Spawn dmenu_run_history
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },    // Spawn terminal
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = filecmd } },
 
-    // Pass
+	// Pass
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pmenucmd } },
 	{ MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenutypecmd } },
 	{ MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = passmenucmd } },
 
-    // Misc Controls
+	// Misc Controls
 	{ MODKEY,                       XK_b,      togglebar,      {0} },              // Toggle status bar
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },       // Move focus down
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },       // Move focus up
@@ -159,13 +138,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  setlayout,      {0} },              // Toggle layout
 	{ MODKEY,                       XK_t,      togglefloating, {0} },              // Toggle current window to/from floating
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },      // View all windows from all tags (I think)
-//	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },      // Give current window all tags (unsigned complement of 0 is 111...)
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },       // Move focus one monitor to the left
-//	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },       // Move focus one monitor to the right - I only have 1 monitor
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },       // Move the focused window to the monitor to the left
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },       // Move the focused window to the monitor to the right
 
-    // scripts
+	// scripts
 	{ MODKEY,                       XK_c,      spawn,          {.v = pythoncmd } },   // spawn python dmenu prompt
 	{ MODKEY,                       XK_o,      spawn,          {.v = opencmd } },     // spawn open script
 	{ MODKEY,                       XK_period, spawn,          {.v = emojicmd } },    // spawn emoji script
@@ -173,8 +150,8 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_r,      spawn,          {.v = rulercmd } },    // spawn ruler script
 	{ MODKEY|Mod1Mask,              XK_c,      spawn,          {.v = turbocmd } },    // spawn tubro script
 
-    // Media
-    // NOTE: 0 as the modifier might be wrong, it's a guess
+	// Media
+	// NOTE: 0 as the modifier might be wrong, it's a guess
 	{ 0,                            XF86XK_AudioMute,        spawn,   {.v = volmutecmd } }, // mute volume
 	{ 0,                            XF86XK_AudioRaiseVolume, spawn,   {.v = volupcmd } },   // raise volume
 	{ 0,                            XF86XK_AudioLowerVolume, spawn,   {.v = voldowncmd } }, // lower volume
@@ -183,8 +160,7 @@ static Key keys[] = {
 	{ 0,                            XF86XK_AudioStop,        spawn,   {.v = stopcmd } },    // lower volume
 	{ 0,                            XF86XK_AudioPlay,        spawn,   {.v = ppcmd } },      // lower volume
 
-
-    // Tags
+	// Tags
 	TAGKEYS(                        XK_1,                      0)                  // Show tag 0
 	TAGKEYS(                        XK_2,                      1)                  // Show tag 1
 	TAGKEYS(                        XK_3,                      2)                  // Show tag 2
@@ -195,11 +171,14 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)                  // Show tag 7
 	TAGKEYS(                        XK_9,                      8)                  // Show tag 8
 
-    // Quit
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },              // DIE!
+	// Exit
+	// TODO: Recompile and restart
+	{ MODKEY,                       XK_q,        quit,           {0} },                 // restart dwm
+	{ MODKEY|ControlMask,           XK_Insert,   spawn,          {.v = rebootcmd  } },  // reboot computer
+	{ MODKEY|ControlMask,           XK_Delete,   quit,           {.v = shutdowncmd } }, // shutdown computer
 
-    // Custom
-    { MODKEY|ShiftMask,             XK_b,      banishpointer,  {0} },
+	// Custom
+	{ MODKEY,                       XK_apostrophe,      banishpointer,  {0} },
 };
 
 /* button definitions */

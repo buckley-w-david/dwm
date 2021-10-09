@@ -1928,7 +1928,7 @@ main(int argc, char *argv[])
 
 void
 banishpointer(const Arg *arg) {
-    XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->ww - borderpx,
-            selmon->wh + bh - borderpx);
-    XFlush(dpy);
+	XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->ww - borderpx,
+			selmon->wh + bh - borderpx);
+	XFlush(dpy);
 }
