@@ -30,3 +30,26 @@ This is my fork
      - M-S-r - Rename tag by string from dmenu
  * left/right arrow to move tags left/right
  * Remove all tags from window except current viewed one(s?)
+
+## General TODO
+ * [Create a PKGBUILD](https://bitbucket.org/jokerboy/dwm/raw/0b70c4351b887fbfdb5d694ce4451d52ad9e9422/PKGBUILD)
+ * Check out interesting looking patches
+   - [Store/retrieve tags on an xprop](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) - I think this should "save" the tagset of windows between restarts for things like firefox
+   - [Focus on click instead of hover](https://dwm.suckless.org/patches/focusonclick/)
+   - [Single shared tagset between monitors](https://dwm.suckless.org/patches/single_tagset/)
+   - [Scratchpads](https://dwm.suckless.org/patches/scratchpads/) and/or [Dynamic Scratchpads](https://dwm.suckless.org/patches/dynamicscratchpads/)
+   - [autostart](https://dwm.suckless.org/patches/autostart/) or [cool autostart](https://dwm.suckless.org/patches/cool_autostart/)
+   - [swallow](https://dwm.suckless.org/patches/swallow/) or [dynamic swallow](https://dwm.suckless.org/patches/dynamicswallow/)
+   - [noborder](https://dwm.suckless.org/patches/noborder/) or [smart border](https://dwm.suckless.org/patches/smartborders/) or [removeborder](https://dwm.suckless.org/patches/removeborder/)
+   - [shiftview.c](https://lists.suckless.org/dev/att-7590/shiftview.c)
+   - [systray](https://dwm.suckless.org/patches/systray/)
+ * investigate status bars
+   - [slstatus](https://tools.suckless.org/slstatus/)
+   - [conky](https://wiki.archlinux.org/title/Conky)
+   - [dwmstatus](https://github.com/kamiyaa/dwmstatus)
+   - [dwmblocks](https://github.com/torrinfail/dwmblocks)
+
+## Resources
+
+### Other configs (inspiration)
+ * https://github.com/lukesmithxyz/dwm
