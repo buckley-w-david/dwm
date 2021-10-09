@@ -1985,12 +1985,14 @@ void pulltags(const Arg *arg)
 {
 	Monitor *m = dirtomon(arg->i);
 	Client *c;
-	bool done;
-	// Keep chucking clients to the other monitor until there are none left
+	bool done = true;
+	// Keep chucking clients to the other monitor until there are none left fitting criteria
 	// Time complexity of this is pretty shit
 	// Gotta do this weird loop-in-loop shit because every time we sendmon
 	// the client list gets rekt
-	while (true) {
+	// TODO: Figure out a better implementation
+	// TODO: This is basically he same as pullmon - consolidate somehow
+	do {
 		done = true;
 		for (c = m->clients; c; c = c->next) {
 			if (c->tags & selmon->tagset[selmon->seltags]) {
@@ -1999,9 +2001,7 @@ void pulltags(const Arg *arg)
 				break;
 			}
 		}
-
-		if (done) break;
-	}
+	} while (!done);
 }
 
 
@@ -2010,11 +2010,12 @@ void pullmon(const Arg *arg)
 {
 	Monitor *m = dirtomon(arg->i);
 	Client *c;
-	bool done;
+	bool done = true;
 	// Keep chucking clients to the other monitor until there are none left
 	// Time complexity of this is pretty shit
 	// Gotta do this weird loop-in-loop shit because every time we sendmon the client list gets rekt
-	while (true) {
+
+	do {
 		done = true;
 		for (c = m->clients; c; c = c->next) {
 			if (ISVISIBLE(c)) {
@@ -2023,7 +2024,5 @@ void pullmon(const Arg *arg)
 				break;
 			}
 		}
-
-		if (done) break;
-	}
+	} while (!done);
 }
