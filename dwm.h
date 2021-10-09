@@ -205,6 +205,9 @@ static void banishpointer();
 static void tagtagmon(const Arg *arg);
 static void swapmon(const Arg *arg);
 
+static void pulltags(const Arg *arg);
+static void pullmon(const Arg *arg);
+
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];

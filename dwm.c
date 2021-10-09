@@ -25,6 +25,7 @@
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -1985,5 +1986,53 @@ void tagtagmon(const Arg *arg)
 		attachstack(c);
 		focus(NULL);
 		arrange(NULL);
+	}
+}
+
+// Move all clients sharing a tagset with the currently selected one to a different monitor
+void pulltags(const Arg *arg)
+{
+	Monitor *m = dirtomon(arg->i);
+	Client *c;
+	bool done;
+	// Keep chucking clients to the other monitor until there are none left
+	// Time complexity of this is pretty shit
+	// Gotta do this weird loop-in-loop shit because every time we sendmon
+	// the client list gets rekt
+	while (true) {
+		done = true;
+		for (c = m->clients; c; c = c->next) {
+			if (c->tags & selmon->tagset[selmon->seltags]) {
+				sendmon(c, selmon);
+				done = false;
+				break;
+			}
+		}
+
+		if (done) break;
+	}
+}
+
+
+// Move all clients sharing a tagset with the currently selected one to a different monitor
+void pullmon(const Arg *arg)
+{
+	Monitor *m = dirtomon(arg->i);
+	Client *c;
+	bool done;
+	// Keep chucking clients to the other monitor until there are none left
+	// Time complexity of this is pretty shit
+	// Gotta do this weird loop-in-loop shit because every time we sendmon the client list gets rekt
+	while (true) {
+		done = true;
+		for (c = m->clients; c; c = c->next) {
+			if (ISVISIBLE(c)) {
+				sendmon(c, selmon);
+				done = false;
+				break;
+			}
+		}
+
+		if (done) break;
 	}
 }

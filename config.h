@@ -194,6 +194,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)                  // Show tag 7
 	TAGKEYS(                        XK_9,                      8)                  // Show tag 8
 	{ MODKEY,                       XK_m,                      swapmon,      {.i = 1 } }, // Swap current client to right monitor, retain tags
+	{ MODKEY|ControlMask,           XK_m,                      pulltags,     {.i = 1 } }, // Pull all clients tagged with the selected tagset to the selected monitor
+	{ MODKEY|ShiftMask,             XK_m,                      pullmon,      {.i = 1 } }, // Pull all visible clients from one monitor to the current
 
 	// Exit
 	// TODO: Recompile and restart
