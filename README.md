@@ -8,7 +8,6 @@ This is my fork
 ### Important
  * auto float some stuff
  * fix colours (Like active window outline and statusbar)
- * Migrate xmobar config to [dwm-bar](https://github.com/joestandring/dwm-bar)
  * Applications
      - \<Print>        , spawn "maim -s | xclip -selection clipboard -t image/png"
      - M-\<Print>      , spawn "maim -i $((16#$(xwininfo | grep \"Window id\" | awk '{print $4}' | cut -c3-))) ~/Pictures/Screenshots/$(date +%s).png"
@@ -23,8 +22,8 @@ This is my fork
      - M-backspace - Delete current tag (meh)
      - M-S-r - Rename tag by string from dmenu
  * left/right arrow to move tags left/right
- * Remove all tags from window except current viewed one(s?)
- * improve spotify scratchpad
+ * coloured bar text
+ * Checkout out dwmblocks as an alternative to dwm-bar
 
 ## General TODO
  * [Create a PKGBUILD](https://bitbucket.org/jokerboy/dwm/raw/0b70c4351b887fbfdb5d694ce4451d52ad9e9422/PKGBUILD)

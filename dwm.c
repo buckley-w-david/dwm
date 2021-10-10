@@ -975,6 +975,15 @@ propertynotify(XEvent *e)
 			updatewmhints(c);
 			drawbars();
 			break;
+		case XA_WM_CLASS:
+			// This is experimental, just apply rules again when class is updated
+			// This is meant to handle broken applications like Spotify that set their
+			// WM_CLASS after mapping, when it's too late and rules that could match it
+			// have already failed to do so.
+			// There is an argument that I should instead setup a whole different rule structure
+			// for propertyhooks, like how they are separate in XMonad
+			applyrules(c);
+			break;
 		}
 		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]) {
 			updatetitle(c);
