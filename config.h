@@ -59,9 +59,15 @@ static const Rule rules[] = {
 	/* class      instance              title       tags mask     isfloating   monitor */
 	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ NULL,       NULL,	                NULL,       0,            False,       -1 },
-	{ NULL,       "term-scratchpad",    NULL,		SPTAG(0),     1,           -1 },
-	{ "Spotify",  NULL,                 NULL,		SPTAG(1),     1,           -1 },
+	{ NULL,          NULL,	               NULL,       0,            False,       -1 },
+	{ NULL,          "term-scratchpad",    NULL,       SPTAG(0),     1,           -1 },
+	{ "Spotify",     NULL,                 NULL,       SPTAG(1),     1,           -1 },
+	{ "Steam",       NULL,                 NULL,       1 << 7,       0,           -1 },
+	{ "Gamehub",     NULL,                 NULL,       1 << 7,       0,           -1 },
+	{ "Lutris",      NULL,                 NULL,       1 << 7,       0,           -1 },
+	{ "discord",     NULL,                 NULL,       1 << 2,       0,           -1 },
+	{ "Thunderbird", NULL,                 NULL,       1 << 2,       0,           -1 },
+	{ "mpvIdle",     NULL,                 NULL,       1 << 3,       0,           -1 },
 };
 
 /* layout(s) */
