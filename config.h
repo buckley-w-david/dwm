@@ -15,6 +15,16 @@ static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+
+/* status bar */
+static const int splitstatus        = 1;        /* 0 means don't split status */
+static const char *splitdelim       = ";";      /* Character to split status on */
+static const int delimbar           = 1;        /* 0 means don't delimit bar sections */
+static const char *bardelimiter     = ":";      /* str to separate bar sections with */
+static const int limittitle         = 1;        /* 0 means don't limit the title length */
+static const int titlelength        = 35;       /* length to truncate window titles to - DON'T SET LARGER THAN ~250, you'll probably segfault*/
+
+
 static const int focusonwheel       = 0;
 static const char *fonts[] = {
 	"Iosevka:size=10",

@@ -15,7 +15,7 @@ This is my fork
    - [shiftview.c](https://lists.suckless.org/dev/att-7590/shiftview.c)
    - [systray](https://dwm.suckless.org/patches/systray/)
    - [Single shared tagset between monitors](https://dwm.suckless.org/patches/single_tagset/) - Might not be feasable
-   - maybe [splitstatus](https://dwm.suckless.org/patches/splitstatus/)
+   - [this](https://github.com/fitrh/dwm/commit/d139433339ed9289293d7353c279052d7fe3507e) and [this](https://github.com/fitrh/dwm/commit/4e8cc1d41979ab729229940bd85825326d9c66ba) patch for colourfl tags
 
 ## Resources
 

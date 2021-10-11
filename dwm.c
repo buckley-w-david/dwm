@@ -480,12 +480,8 @@ drawbar(Monitor *m)
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
-
-	/* draw status first so it can be overdrawn by tags later */
-	// The status bar is drawn an all monitors
-	drw_setscheme(drw, scheme[SchemeNorm]);
-	tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-	drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
+	char *mstext;
+	char *rstext;
 
 	for (c = m->clients; c; c = c->next) {
 		occ |= c->tags;
@@ -493,6 +489,8 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
+
+	// Tags 1:main 2:main etc
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
@@ -503,20 +501,74 @@ drawbar(Monitor *m)
 				urg & 1 << i);
 		x += w;
 	}
-	w = blw = TEXTW(m->ltsymbol);
+
 	drw_setscheme(drw, scheme[SchemeNorm]);
+	if (delimbar) {
+		w = TEXTW(bardelimiter);
+		x = drw_text(drw, x, 0, w, bh, lrpad / 2, bardelimiter, 0);
+	}
+
+	// Layout symbol
+	w = blw = TEXTW(m->ltsymbol);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+
+	if (delimbar) {
+		w = TEXTW(bardelimiter);
+		x = drw_text(drw, x, 0, w, bh, lrpad / 2, bardelimiter, 0);
+	}
 
 	if ((w = m->ww - tw - x) > bh) {
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		if (m->sel) {
+			// Hacky way to truncate window titles if they're too long
+			// static sized buffers make everything easier
+			char bak[4];
+			if (limittitle) {
+				bak[0] = m->sel->name[titlelength];
+				bak[1] = m->sel->name[titlelength+1];
+				bak[2] = m->sel->name[titlelength+2];
+				bak[3] = m->sel->name[titlelength+3];
+				m->sel->name[titlelength] = '.';
+				m->sel->name[titlelength+1] = '.';
+				m->sel->name[titlelength+2] = '.';
+				m->sel->name[titlelength+3] = '\0';
+			}
+
+			int t = TEXTW(m->sel->name);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+
+			if (limittitle) {
+				m->sel->name[titlelength] = bak[0];
+				m->sel->name[titlelength+1] = bak[1];
+				m->sel->name[titlelength+2] = bak[2];
+				m->sel->name[titlelength+3] = bak[3];
+			}
+
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+			x += t;
 		} else {
 			drw_rect(drw, x, 0, w, bh, 1, 1);
 		}
 	}
+
+	if (delimbar) {
+		w = TEXTW(bardelimiter);
+		x = drw_text(drw, x, 0, w, bh, lrpad / 2, bardelimiter, 0);
+	}
+
+	drw_rect(drw, x, 0, m->ww - x, bh, 1, 1);
+
+	// status
+	rstext = strndup(stext, sizeof(stext));
+	if (splitstatus) {
+		mstext = strsep(&rstext, splitdelim);
+		drw_text(drw, x, 0, TEXTW(mstext) - lrpad, bh, 0, mstext, 0);
+	}
+
+	tw = TEXTW(rstext) - lrpad + 2; /* 2px right padding */
+	drw_text(drw, m->ww - tw, 0, tw, bh, 0, rstext, 0);
+
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
 
