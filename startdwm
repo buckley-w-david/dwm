@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# TODO: This will need adjusting
+# if [ -z "$(pgrep trayer)" ] ; then
+#     trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 0 --tint 0x191970 --height 35 &
+# fi
+#
+# # Network manager, so we don't have to configure wifi at the command line.
+# if [ -z "$(pgrep nm-applet)" ] ; then
+#     nm-applet --sm-disable &
+# fi
+#
+# # if [ -z "$(pgrep xscreensaver)" ] ; then
+# #     xscreensaver -no-splash &
+# #     xss-lock --xscreensaver-command -lock &
+# # fi
+#
+# if [ -z "$(pgrep udiskie)" ] ; then
+#     udiskie --tray &
+# fi
+#
+# if [ -z "$(pgrep caffeine)" ] ; then
+#     caffeine-indicator &
+# fi
+#
+# if [ -z "$(pgrep blueman-applet)" ] ; then
+#     blueman-applet &
+# fi
+
+if [ -z "$(pgrep xcompmgr)" ] ; then
+    xcompmgr -c -C -n &
+fi
+
+xrandr --dpi 276 --fb 7680x2160 --output DP-2 --mode 3840x2160 --output DP-0 --scale 2x2 --pos 3840x0 --panning 3840x2160+3840+0
+
+# create a new temporary '.Xresources' file with only the DPI setting
+TMPFILE=$(mktemp)
+echo "! Fonts {{{
+     Xft.dpi: 144
+! }}}" > "$TMPFILE"
+
+# merge the temporary .Xresources file on top of the already loaded config
+xrdb -merge "$TMPFILE"
+
+#cleanup
+rm -f "$TMPFILE"
+
+# Black background
+# xloadimage -onroot -fullscreen /home/david/Pictures/black.png
+# xsetroot -solid black &
+# FIXME: this is hacky
+/home/david/Pictures/wallpaper/new-wallpaper
+
+# On login, we unlock the ssh keychain so we're not prompted for
+# passphrases later. We pipe /dev/null to ssh-add to make it realize
+# it's not running in a terminal. Otherwise, it won't launch the prompt.
+
+export SSH_ASKPASS="/usr/bin/qt4-ssh-askpass"
+if [ "$(ssh-add -L)" = "The agent has no identities." ] ; then
+    cat /dev/null | ssh-add &
+fi
+
+if [ -z "$(pgrep statusbar)" ] ; then
+    statusbar &
+fi
+
+while true; do
+    # Log stderror to a file
+    /home/david/bin/dwm 2> ~/.dwm.log
+    # No error logging
+    #dwm >/dev/null 2>&1
+done

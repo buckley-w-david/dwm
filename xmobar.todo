@@ -1,0 +1,18 @@
+1. Currently selected tags should be surounded by []
+2. Currently viewed tags should be yellow
+3. Empty tags should be red
+4. Tags with out of view windows should be blue
+
+5. Window title
+
+6. Articles
+
+7. Updates
+
+GAP
+
+8. Screensaver status (Can be removed)
+9. Cpu: d% (number is coloured based on good/bad)
+10. volume (on/off for mute, on is green, red is off)
+11. date (in orange)
+12. Tray

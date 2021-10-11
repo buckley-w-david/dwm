@@ -125,6 +125,7 @@ static const char *turbocmd[]    = SCRIPT("turbo");
 static const char *pythoncmd[]   = SCRIPT("dmenu_python");
 static const char *opencmd[]     = SCRIPT("open");
 static const char *emojicmd[]    = SCRIPT("emoji");
+static const char *pintacmd[]    = SCRIPT("pinta-ss");
 
 // Applications
 static const char *browsercmd[]     = { BROWSER, NULL };
@@ -145,6 +146,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },    // Spawn terminal
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = filecmd } },
+	{ 0,                            XK_Print,  spawn,          SHCMD("maim -s | xclip -selection clipboard -t image/png") },
+	{ MODKEY,                       XK_Print,  spawn,          SHCMD("maim -i $((16#$(xwininfo | grep \"Window id\" | awk '{print $4}' | cut -c3-))) ~/Pictures/Screenshots/$(date +%s).png") },
+	{ MODKEY|ControlMask,           XK_Print,  spawn,          {.v = pintacmd } },
 
 	// Pass
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pmenucmd } },
