@@ -27,10 +27,10 @@ static const int titlelength        = 35;       /* length to truncate window tit
 
 static const int focusonwheel       = 0;
 static const char *fonts[] = {
-	"Iosevka:size=10",
+	"Source Code Pro:size=10",
     "FontAwesome:size=10",
 };
-static const char dmenufont[]       = "Iosevka:size=10";
+static const char dmenufont[]       = "Source Code Pro:size=10";
 static const char normbgcolor[]     = "#222222";
 static const char normbordercolor[] = "#444444";
 static const char normfgcolor[]     = "#bbbbbb";
