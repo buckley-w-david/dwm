@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=dwm
+Comment=Dynamic window manager
+Exec=env SSH_ASKPASS=/usr/bin/qt4-ssh-askpass /usr/bin/ssh-agent /home/david/bin/startdwm
+Icon=dwm
+Type=XSession
+Terminal=false
+StartupNotify=false
