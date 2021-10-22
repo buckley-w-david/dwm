@@ -8,8 +8,9 @@
 #include "dwm.h"
 
 #define TERMINAL     "kitty"
-#define BROWSER      "firefox-developer-edition"
+#define BROWSER      "firefox"
 #define FILE_EXPLORER "rox"
+
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -31,7 +32,7 @@ static const char *fonts[] = {
     "FontAwesome:size=10",
 };
 static const char dmenufont[]       = "Source Code Pro:size=10";
-static const char normbgcolor[]     = "#222222";
+static const char normbgcolor[]     = "#202020";
 static const char normbordercolor[] = "#444444";
 static const char normfgcolor[]     = "#bbbbbb";
 static const char selfgcolor[]      = "#eeeeee";
@@ -221,9 +222,9 @@ static Key keys[] = {
 	// Exit
 	// TODO: Recompile and restart
 	{ MODKEY,                       XK_q,        quit,           {0} },                 // restart dwm
-	{ MODKEY|ShiftMask,             XK_q,        spawn,          {.v = quitcmd } },                 // quit dwm
-	{ MODKEY|ControlMask,           XK_Insert,   spawn,          {.v = rebootcmd  } },  // reboot computer
-	{ MODKEY|ControlMask,           XK_Delete,   quit,           {.v = shutdowncmd } }, // shutdown computer
+	{ MODKEY|ShiftMask,             XK_q,        spawn,          {.v = quitcmd } },     // quit dwm
+	{ MODKEY|ControlMask,           XK_Delete,   spawn,          {.v = rebootcmd  } },  // reboot computer
+	{ MODKEY|ControlMask,           XK_Insert,   quit,           {.v = shutdowncmd } }, // shutdown computer
 
 	// Custom
 	{ MODKEY,                       XK_apostrophe,      banishpointer,  {0} },

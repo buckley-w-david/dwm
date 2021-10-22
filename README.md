@@ -30,6 +30,7 @@ Feel free to use it, or something else, I'm not the boss of you.
    - [Store/retrieve tags on an xprop](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) - I think this should "save" the tagset of windows between restarts for things like firefox
    - [status2d](https://dwm.suckless.org/patches/status2d/) or [colored status text](https://dwm.suckless.org/patches/statuscolors/) for fancier status.
    - [statuscmd](https://dwm.suckless.org/patches/statuscmd/) for interative status
+     - Add a patch to the "what block did you click" loop, set on bye, unset on hitting the same stored byte. That way we can indicate start and close of blocks, which accounts for gaps without having to reserve a dedicated close byte
    - [autostart](https://dwm.suckless.org/patches/autostart/) or [cool autostart](https://dwm.suckless.org/patches/cool_autostart/)
    - [swallow](https://dwm.suckless.org/patches/swallow/) or [dynamic swallow](https://dwm.suckless.org/patches/dynamicswallow/)
    - [shiftview.c](https://lists.suckless.org/dev/att-7590/shiftview.c)
