@@ -196,7 +196,6 @@ static Key keys[] = {
 	{ MODKEY|Mod1Mask,              XK_c,      spawn,          {.v = turbocmd } },    // spawn tubro script
 
 	// Media
-	// NOTE: 0 as the modifier might be wrong, it's a guess
 	{ 0,                            XF86XK_AudioMute,        spawn,   {.v = volmutecmd } }, // mute volume
 	{ 0,                            XF86XK_AudioRaiseVolume, spawn,   {.v = volupcmd } },   // raise volume
 	{ 0,                            XF86XK_AudioLowerVolume, spawn,   {.v = voldowncmd } }, // lower volume
@@ -224,7 +223,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_q,        quit,           {0} },                 // restart dwm
 	{ MODKEY|ShiftMask,             XK_q,        spawn,          {.v = quitcmd } },     // quit dwm
 	{ MODKEY|ControlMask,           XK_Delete,   spawn,          {.v = rebootcmd  } },  // reboot computer
-	{ MODKEY|ControlMask,           XK_Insert,   quit,           {.v = shutdowncmd } }, // shutdown computer
+	{ MODKEY|ControlMask,           XK_Insert,   spawn,           {.v = shutdowncmd } }, // shutdown computer
 
 	// Custom
 	{ MODKEY,                       XK_apostrophe,      banishpointer,  {0} },
