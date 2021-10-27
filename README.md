@@ -12,12 +12,15 @@ dwm fork with mainstream and custom patches.
  - [remember-tags](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) with a slight modification in the form of an missing `NULL` check.
 
 ## Custom Features
- - [commit](https://github.com/buckley-w-david/dwm/commit/5de4dd4fd97ac6672077affd8ed2745bf99fe497) - Refactor existing source and header files to better match my development setup. This mainly consisdes of adding include guards to header files and extracting the declarations from [dwm.c](dwm.c) into a new header [dwm.h](dwm.h).
- - [commit](https://github.com/buckley-w-david/dwm/commit/362089a79df52b7cb156b0cd7c4307d09180e390) - Unconditionally use SchemeNorm when rendering selected window name in bar
- - [commit](https://github.com/buckley-w-david/dwm/commit/9e60c9276734074c5047f97f1dd2abbfec4848e1) - Add delimiters between sections of the bar (tags : title : status)
- - [commit](https://github.com/buckley-w-david/dwm/commit/9e60c9276734074c5047f97f1dd2abbfec4848e1) - Add option to truncate window title to a configurable length
- - [commit](https://github.com/buckley-w-david/dwm/commit/64db9b4f96547f70b4ce5470b31942f7c0570401) - Apply rules again when clients change their WM\_CLASS (To handle broken applications like Spotify)
- - [commit](https://github.com/buckley-w-david/dwm/commit/92b49a1f06fb7ff47aabb1d203d93fa5a755f739) and [commit](https://github.com/buckley-w-david/dwm/commit/ee26efbfa30b6f6f51b9d60124ccb57527ae42a3) - Custom client monitor manipulations
+
+| Description   | Commit(s)     |
+| ------------- | ------------- |
+| Refactor existing source and header files to better match my development setup. This mainly consisdes of adding include guards to header files and extracting the declarations from [dwm.c](dwm.c) into a new header [dwm.h](dwm.h).  | [commit](https://github.com/buckley-w-david/dwm/commit/5de4dd4fd97ac6672077affd8ed2745bf99fe497)  |
+| Unconditionally use SchemeNorm when rendering selected window name in bar  | [commit](https://github.com/buckley-w-david/dwm/commit/362089a79df52b7cb156b0cd7c4307d09180e390)  |
+| Add delimiters between sections of the bar (tags : title : status) | [commit](https://github.com/buckley-w-david/dwm/commit/9e60c9276734074c5047f97f1dd2abbfec4848e1) |
+| Add option to truncate window title to a configurable length | [commit](https://github.com/buckley-w-david/dwm/commit/9e60c9276734074c5047f97f1dd2abbfec4848e1) |
+| Apply rules again when clients change their WM\_CLASS (To handle broken applications like Spotify) | [commit](https://github.com/buckley-w-david/dwm/commit/64db9b4f96547f70b4ce5470b31942f7c0570401) |
+| Custom client monitor manipulations | [commit](https://github.com/buckley-w-david/dwm/commit/92b49a1f06fb7ff47aabb1d203d93fa5a755f739), [commit](https://github.com/buckley-w-david/dwm/commit/ee26efbfa30b6f6f51b9d60124ccb57527ae42a3) |
 
 ## StatusBar
 [I wrote my own statusbar for use with dwm.](https://github.com/buckley-w-david/statusbar)
