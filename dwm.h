@@ -28,6 +28,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+enum { DWMTags, DWMLast }; /* DWM atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
@@ -199,6 +200,7 @@ static void zoom(const Arg *arg);
 
 /* patch defined functions */
 static void togglescratch(const Arg *arg);
+static void settagsatom(Window w, unsigned int tags);
 
 /* my functions */
 static void banishpointer();
@@ -231,7 +233,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
 	[PropertyNotify] = propertynotify,
 	[UnmapNotify] = unmapnotify
 };
-static Atom wmatom[WMLast], netatom[NetLast];
+static Atom wmatom[WMLast], netatom[NetLast], dwmatom[DWMLast];
 static int running = 1;
 static Cur *cursor[CurLast];
 static Clr **scheme;

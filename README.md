@@ -9,6 +9,7 @@ dwm fork with mainstream and custom patches.
  - [removeborder](https://github.com/buckley-w-david/dwm/commit/d2d65e3098edb419ad5fe6d84a8e28bc2dbe5366)
  - [statusallmons](https://github.com/buckley-w-david/dwm/commit/a53eec7a5c050df0f21b58db7ae97c7759cb0901)
  - [splitstatus](https://github.com/buckley-w-david/dwm/commit/9e60c9276734074c5047f97f1dd2abbfec4848e1) with changes to keep the window title, and position one of the splits immediatly after the title
+ - [remember-tags](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) with a slight modification in the form of an missing `NULL` check.
 
 ## Custom Features
  - [commit](https://github.com/buckley-w-david/dwm/commit/5de4dd4fd97ac6672077affd8ed2745bf99fe497) - Refactor existing source and header files to better match my development setup. This mainly consisdes of adding include guards to header files and extracting the declarations from [dwm.c](dwm.c) into a new header [dwm.h](dwm.h).
@@ -27,7 +28,6 @@ Feel free to use it, or something else, I'm not the boss of you.
  * [Create a PKGBUILD](https://bitbucket.org/jokerboy/dwm/raw/0b70c4351b887fbfdb5d694ce4451d52ad9e9422/PKGBUILD)
  * Update documentation to reflect my changes
  * Check out interesting looking patches
-   - [Store/retrieve tags on an xprop](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) - I think this should "save" the tagset of windows between restarts for things like firefox
    - [status2d](https://dwm.suckless.org/patches/status2d/) or [colored status text](https://dwm.suckless.org/patches/statuscolors/) for fancier status.
    - [statuscmd](https://dwm.suckless.org/patches/statuscmd/) for interative status
      - Add a patch to the "what block did you click" loop, set on bye, unset on hitting the same stored byte. That way we can indicate start and close of blocks, which accounts for gaps without having to reserve a dedicated close byte
