@@ -51,11 +51,13 @@ typedef struct {
 } Sp;
 //                    , NS "terminal" (myTerminal ++ " --name scratchpad") (appName =? "scratchpad") defaultFloating
 const char *scratchtermcmd[] = { TERMINAL, "--name", "term-scratchpad", "-o", "initial_window_height=600", NULL };
-const char *spotifycmd[] = { "spotify", "--force-device-scale-factor=2.0", NULL };
+const char *psstcmd[] = { "psst-gui", "--force-device-scale-factor=2.0", NULL };
+const char *notescmd[] = { "Logseq-linux-x64-0.5.4.AppImage", NULL };
 static Sp scratchpads[] = {
 	/* name               cmd  */
 	{"term-scratchpad",     scratchtermcmd},
-	{"spotify-scratchpad",  spotifycmd},
+	{"psst-scratchpad",  psstcmd},
+	{"logseq-scratchpad",   notescmd},
 };
 
 
@@ -72,7 +74,8 @@ static const Rule rules[] = {
 	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ NULL,          NULL,	               NULL,       0,            False,       -1 },
 	{ NULL,          "term-scratchpad",    NULL,       SPTAG(0),     1,           -1 },
-	{ "Spotify",     NULL,                 NULL,       SPTAG(1),     1,           -1 },
+	{ "Psst-gui",     NULL,                 NULL,       SPTAG(1),     1,           -1 },
+	{ NULL,          "logseq",             NULL,       SPTAG(2),     1,           -1 },
 	{ "Steam",       NULL,                 NULL,       1 << 7,       0,           -1 },
 	{ "Gamehub",     NULL,                 NULL,       1 << 7,       0,           -1 },
 	{ "Lutris",      NULL,                 NULL,       1 << 7,       0,           -1 },
@@ -130,7 +133,6 @@ static const char *passmenutypecmd[] = { "passmenu", "--type", NULL };
 static const char *passmenucmd[]     = { "passmenu", NULL };
 
 // Scripts
-static const char *obsidiancmd[] = SCRIPT("obsidian.sh");
 static const char *rulercmd[]    = SCRIPT("toggle-ruler");
 static const char *turbocmd[]    = SCRIPT("turbo");
 static const char *pythoncmd[]   = SCRIPT("dmenu_python");
@@ -169,6 +171,7 @@ static Key keys[] = {
 	// Scratchpads
 	{ MODKEY,            			XK_F12,    togglescratch,  {.ui = 0 } },
 	{ MODKEY|ShiftMask,   			XK_s,      togglescratch,  {.ui = 1 } },
+	{ MODKEY,                       XK_z,      togglescratch,  {.ui = 2 } },
 
 	// Misc Controls
 	{ MODKEY,                       XK_b,      togglebar,      {0} },              // Toggle status bar
@@ -191,7 +194,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_c,      spawn,          {.v = pythoncmd } },   // spawn python dmenu prompt
 	{ MODKEY,                       XK_o,      spawn,          {.v = opencmd } },     // spawn open script
 	{ MODKEY,                       XK_period, spawn,          {.v = emojicmd } },    // spawn emoji script
-	{ MODKEY,                       XK_z,      spawn,          {.v = obsidiancmd } }, // spawn obsidian script
 	{ MODKEY|Mod1Mask,              XK_r,      spawn,          {.v = rulercmd } },    // spawn ruler script
 	{ MODKEY|Mod1Mask,              XK_c,      spawn,          {.v = turbocmd } },    // spawn tubro script
 
