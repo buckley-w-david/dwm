@@ -4,7 +4,7 @@ dwm fork with mainstream and custom patches.
 
 ## Mainstream Patches
  - [focusonclick](https://github.com/buckley-w-david/dwm/commit/4925f0387f27b7dcd1275a487839ea0dbba5ac76)
- - [scratchpads](https://github.com/buckley-w-david/dwm/commit/9b2003c3a99386e314ce705166c962ebcca39309)
+ - [renamedscratchpads](https://github.com/buckley-w-david/dwm/commit/7bcb0362c19b99876568710c7a49b0d76d87c1cb)
  - [fakefullscreen](https://github.com/buckley-w-david/dwm/commit/3bde615344a1c40acda00421d2ffd25e26a5eb05)
  - [removeborder](https://github.com/buckley-w-david/dwm/commit/d2d65e3098edb419ad5fe6d84a8e28bc2dbe5366)
  - [statusallmons](https://github.com/buckley-w-david/dwm/commit/a53eec7a5c050df0f21b58db7ae97c7759cb0901)
