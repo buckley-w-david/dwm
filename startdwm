@@ -18,7 +18,7 @@ if [ -z "$(pgrep xcompmgr)" ] ; then
     xcompmgr -c -C -n &
 fi
 
-xrandr --dpi 276 --fb 7680x2160 --output DP-2 --mode 3840x2160 --output DP-0 --scale 2x2 --pos 3840x0 --panning 3840x2160+3840+0
+xrandr --dpi 276 --fb 7680x2160 --output DP-0 --mode 3840x2160 --output DP-2 --scale 2x2 --pos 3840x0 --panning 3840x2160+3840+0
 
 # create a new temporary '.Xresources' file with only the DPI setting
 TMPFILE=$(mktemp)

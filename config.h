@@ -8,7 +8,7 @@
 #include "dwm.h"
 
 #define TERMINAL     "kitty"
-#define BROWSER      "firefox"
+#define BROWSER      "firefox-developer-edition"
 #define FILE_EXPLORER "rox"
 
 /* appearance */
@@ -52,7 +52,7 @@ typedef struct {
 //                    , NS "terminal" (myTerminal ++ " --name scratchpad") (appName =? "scratchpad") defaultFloating
 const char *scratchtermcmd[] = { TERMINAL, "--name", "term-scratchpad", "-o", "initial_window_height=600", NULL };
 const char *psstcmd[] = { "psst-gui", "--force-device-scale-factor=2.0", NULL };
-const char *notescmd[] = { "Logseq-linux-x64-0.5.4.AppImage", NULL };
+const char *notescmd[] = { "logseq", NULL };
 static Sp scratchpads[] = {
 	/* name               cmd  */
 	{"term-scratchpad",     scratchtermcmd},
