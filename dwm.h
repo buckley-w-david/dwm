@@ -20,7 +20,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeScratchNorm, SchemeScratchSel }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -56,6 +56,7 @@ struct Client {
 	unsigned int tags;
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
     int issteam;
+    char scratchkey;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -102,6 +103,7 @@ typedef struct {
 	unsigned int tags;
 	int isfloating;
 	int monitor;
+    const char scratchkey;
 } Rule;
 
 /* function declarations */
@@ -150,6 +152,7 @@ static void pop(Client *c);
 static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
 static Monitor *recttomon(int x, int y, int w, int h);
+static void removescratch(const Arg *arg);
 static void resize(Client *c, int x, int y, int w, int h, int interact);
 static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
@@ -163,16 +166,19 @@ static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
+static void setscratch(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 static void spawn(const Arg *arg);
+static void spawnscratch(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
+static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);

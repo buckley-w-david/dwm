@@ -38,10 +38,16 @@ static const char normfgcolor[]     = "#bbbbbb";
 static const char selfgcolor[]      = "#eeeeee";
 static const char selbordercolor[]  = "#770000";
 static const char selbgcolor[]      = "#005577";
+
+static const char col_red[]         = "#FF0000";
+static const char col_orange[]      = "#FF8800";
+
 static const char *colors[][3]      = {
 	/*               fg           bg           border   */
 	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
 	[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+ 	[SchemeScratchSel]  = { selfgcolor, selbgcolor,  col_red  },
+ 	[SchemeScratchNorm] = { selfgcolor, selbgcolor,  col_orange },
 };
 
 /* tagging */
@@ -52,16 +58,18 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ NULL,          NULL,	               NULL,       0,            False,       -1 },
-	{ "Steam",       NULL,                 NULL,       1 << 7,       0,           -1 },
-	{ "Gamehub",     NULL,                 NULL,       1 << 7,       0,           -1 },
-	{ "Lutris",      NULL,                 NULL,       1 << 7,       0,           -1 },
-	{ "discord",     NULL,                 NULL,       1 << 2,       0,           -1 },
-	{ "Thunderbird", NULL,                 NULL,       1 << 2,       0,           -1 },
-	{ "mpvIdle",     NULL,                 NULL,       1 << 3,       0,           -1 },
+	/* class         instance            title      tags mask     isfloating   monitor   scratch key */
+	// { "Gimp",     NULL,               NULL,      0,            1,           -1,       0  },
+	// { "Firefox",  NULL,               NULL,      1 << 8,       0,           -1,       0  },
+	{ NULL,          NULL,	             NULL,      0,            False,       -1,       0  },
+	{ "Steam",       NULL,               NULL,      1 << 7,       0,           -1,       0  },
+	{ "Gamehub",     NULL,               NULL,      1 << 7,       0,           -1,       0  },
+	{ "Lutris",      NULL,               NULL,      1 << 7,       0,           -1,       0  },
+	{ "discord",     NULL,               NULL,      1 << 2,       0,           -1,       0  },
+	{ "Thunderbird", NULL,               NULL,      1 << 2,       0,           -1,       0  },
+	{ "mpvIdle",     NULL,               NULL,      1 << 3,       0,           -1,       0  },
+	{ NULL,          "term-scratchpad",  NULL,      0,            1,           -1,       't' },
+    { NULL,          "logseq",           NULL,      0,            1,           -1,       'l' },
 };
 
 /* layout(s) */
@@ -90,6 +98,10 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run_history", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
+
+/*First arg only serves to match against key in rules*/
+static const char *scratchtermcmd[] = { "t", TERMINAL, "--name", "term-scratchpad", "-o", "initial_window_height=600", NULL };
+static const char *scratchnotescmd[] = { "l", "logseq", NULL };
 
 #define SCRIPT_DIR "/home/david/scripts/"
 #define SCRIPT(COMMAND) { SCRIPT_DIR COMMAND, NULL }
@@ -146,6 +158,12 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pmenucmd } },
 	{ MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenutypecmd } },
 	{ MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = passmenucmd } },
+    
+    // Scratchpads
+	{ MODKEY,                       XK_F12,      togglescratch,  {.v = scratchtermcmd } },
+    { MODKEY,                       XK_z,        togglescratch,  {.v = scratchnotescmd } },
+	/* { MODKEY|ShiftMask,             XK_g,      removescratch,  {.v = scratchpadcmd } }, */
+	/* { MODKEY|ControlMask,           XK_g,      setscratch,     {.v = scratchpadcmd } }, */
 
 	// Misc Controls
 	{ MODKEY,                       XK_b,      togglebar,      {0} },              // Toggle status bar
