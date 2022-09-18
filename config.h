@@ -44,23 +44,6 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
-/* scratchpads */
-typedef struct {
-	const char *name;
-	const void *cmd;
-} Sp;
-//                    , NS "terminal" (myTerminal ++ " --name scratchpad") (appName =? "scratchpad") defaultFloating
-const char *scratchtermcmd[] = { TERMINAL, "--name", "term-scratchpad", "-o", "initial_window_height=600", NULL };
-const char *psstcmd[] = { "psst-gui", "--force-device-scale-factor=2.0", NULL };
-const char *notescmd[] = { "logseq", NULL };
-static Sp scratchpads[] = {
-	/* name               cmd  */
-	{"term-scratchpad",     scratchtermcmd},
-	{"psst-scratchpad",  psstcmd},
-	{"logseq-scratchpad",   notescmd},
-};
-
-
 /* tagging */
 static const char *tags[] = { "1:main", "2:main", "3:comms", "4:media", "5:dev", "6:dev", "7:dev", "8:games", "9:games" };
 
@@ -69,13 +52,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance              title       tags mask     isfloating   monitor */
+	/* class      instance    title       tags mask     isfloating   monitor */
 	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ NULL,          NULL,	               NULL,       0,            False,       -1 },
-	{ NULL,          "term-scratchpad",    NULL,       SPTAG(0),     1,           -1 },
-	{ "Psst-gui",     NULL,                 NULL,       SPTAG(1),     1,           -1 },
-	{ NULL,          "logseq",             NULL,       SPTAG(2),     1,           -1 },
 	{ "Steam",       NULL,                 NULL,       1 << 7,       0,           -1 },
 	{ "Gamehub",     NULL,                 NULL,       1 << 7,       0,           -1 },
 	{ "Lutris",      NULL,                 NULL,       1 << 7,       0,           -1 },
@@ -167,11 +147,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pmenucmd } },
 	{ MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenutypecmd } },
 	{ MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = passmenucmd } },
-
-	// Scratchpads
-	{ MODKEY,            			XK_F12,    togglescratch,  {.ui = 0 } },
-	{ MODKEY|ShiftMask,   			XK_s,      togglescratch,  {.ui = 1 } },
-	{ MODKEY,                       XK_z,      togglescratch,  {.ui = 2 } },
 
 	// Misc Controls
 	{ MODKEY,                       XK_b,      togglebar,      {0} },              // Toggle status bar
