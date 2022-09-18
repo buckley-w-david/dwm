@@ -29,7 +29,7 @@ static const int titlelength        = 35;       /* length to truncate window tit
 static const int focusonwheel       = 0;
 static const char *fonts[] = {
 	"Source Code Pro:size=10",
-    "FontAwesome:size=10",
+	"FontAwesome:size=10",
 };
 static const char dmenufont[]       = "Source Code Pro:size=10";
 static const char normbgcolor[]     = "#202020";
@@ -61,7 +61,7 @@ static const Rule rules[] = {
 	/* class         instance            title      tags mask     isfloating   monitor   scratch key */
 	// { "Gimp",     NULL,               NULL,      0,            1,           -1,       0  },
 	// { "Firefox",  NULL,               NULL,      1 << 8,       0,           -1,       0  },
-	{ NULL,          NULL,	             NULL,      0,            False,       -1,       0  },
+	{ NULL,          NULL,               NULL,      0,            False,       -1,       0  },
 	{ "Steam",       NULL,               NULL,      1 << 7,       0,           -1,       0  },
 	{ "Gamehub",     NULL,               NULL,      1 << 7,       0,           -1,       0  },
 	{ "Lutris",      NULL,               NULL,      1 << 7,       0,           -1,       0  },
@@ -69,7 +69,7 @@ static const Rule rules[] = {
 	{ "Thunderbird", NULL,               NULL,      1 << 2,       0,           -1,       0  },
 	{ "mpvIdle",     NULL,               NULL,      1 << 3,       0,           -1,       0  },
 	{ NULL,          "term-scratchpad",  NULL,      0,            1,           -1,       't' },
-    { NULL,          "logseq",           NULL,      0,            1,           -1,       'l' },
+	{ NULL,          "logseq",           NULL,      0,            1,           -1,       'l' },
 };
 
 /* layout(s) */
@@ -158,10 +158,10 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = pmenucmd } },
 	{ MODKEY|ControlMask,           XK_p,      spawn,          {.v = passmenutypecmd } },
 	{ MODKEY|Mod1Mask,              XK_p,      spawn,          {.v = passmenucmd } },
-    
-    // Scratchpads
+	
+	// Scratchpads
 	{ MODKEY,                       XK_F12,      togglescratch,  {.v = scratchtermcmd } },
-    { MODKEY,                       XK_z,        togglescratch,  {.v = scratchnotescmd } },
+	{ MODKEY,                       XK_z,        togglescratch,  {.v = scratchnotescmd } },
 	/* { MODKEY|ShiftMask,             XK_g,      removescratch,  {.v = scratchpadcmd } }, */
 	/* { MODKEY|ControlMask,           XK_g,      setscratch,     {.v = scratchpadcmd } }, */
 

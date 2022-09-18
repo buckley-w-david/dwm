@@ -64,7 +64,7 @@ applyrules(Client *c)
 	/* rule matching */
 	c->isfloating = 0;
 	c->tags = 0;
-    c->scratchkey = 0;
+	c->scratchkey = 0;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
@@ -81,7 +81,7 @@ applyrules(Client *c)
 		{
 			c->isfloating = r->isfloating;
 			c->tags |= r->tags;
-            c->scratchkey = r->scratchkey;
+			c->scratchkey = r->scratchkey;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
 				c->mon = m;
@@ -127,8 +127,8 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
 	if (*w < bh)
 		*w = bh;
 	if (resizehints || c->isfloating || !c->mon->lt[c->mon->sellt]->arrange) {
-        if (!c->hintsvalid)
-            updatesizehints(c);
+		if (!c->hintsvalid)
+			updatesizehints(c);
 		/* see last two sentences in ICCCM 4.1.2.3 */
 		baseismin = c->basew == c->minw && c->baseh == c->minh;
 		if (!baseismin) { /* temporarily remove base dimensions */
@@ -272,7 +272,7 @@ cleanup(void)
 		drw_cur_free(drw, cursor[i]);
 	for (i = 0; i < LENGTH(colors); i++)
 		free(scheme[i]);
-    free(scheme);
+	free(scheme);
 	XDestroyWindow(dpy, wmcheckwin);
 	drw_free(drw);
 	XSync(dpy, False);
@@ -489,7 +489,7 @@ drawbar(Monitor *m)
 	char *rstext;
 
 	if (!m->showbar)
-	    return;
+		return;
 
 	for (c = m->clients; c; c = c->next) {
 		occ |= c->tags;
@@ -871,9 +871,9 @@ manage(Window w, XWindowAttributes *wa)
 	settagsatom(c->win, c->tags);
 
 	if (c->x + WIDTH(c) > c->mon->wx + c->mon->ww)
-	        c->x = c->mon->wx + c->mon->ww - WIDTH(c);
+		c->x = c->mon->wx + c->mon->ww - WIDTH(c);
 	if (c->y + HEIGHT(c) > c->mon->wy + c->mon->wh)
-	        c->y = c->mon->wy + c->mon->wh - HEIGHT(c);
+		c->y = c->mon->wy + c->mon->wh - HEIGHT(c);
 	c->x = MAX(c->x, c->mon->wx);
 	c->y = MAX(c->y, c->mon->wy);
 	c->bw = borderpx;
@@ -1036,7 +1036,7 @@ propertynotify(XEvent *e)
 				arrange(c->mon);
 			break;
 		case XA_WM_NORMAL_HINTS:
-            c->hintsvalid = 0;
+			c->hintsvalid = 0;
 			break;
 		case XA_WM_HINTS:
 			updatewmhints(c);
@@ -1461,7 +1461,7 @@ showhide(Client *c)
 		showhide(c->snext);
 	} else {
 		/* optional: auto-hide scratchpads when moving to other tags */
-        /* TODO: Do I actually want this? */
+		/* TODO: Do I actually want this? */
 		if (c->scratchkey != 0 && !(c->tags & c->mon->tagset[c->mon->seltags]))
 			c->tags = 0;
 		/* hide clients bottom up */
@@ -1485,8 +1485,8 @@ spawn(const Arg *arg)
 		if (dpy)
 			close(ConnectionNumber(dpy));
 		setsid();
-        execvp(((char **)arg->v)[0], (char **)arg->v);
-        die("dwm: execvp '%s' failed:", ((char **)arg->v)[0]);
+		execvp(((char **)arg->v)[0], (char **)arg->v);
+		die("dwm: execvp '%s' failed:", ((char **)arg->v)[0]);
 	}
 }
 
@@ -1747,7 +1747,7 @@ unmanage(Client *c, int destroyed)
 		wc.border_width = c->oldbw;
 		XGrabServer(dpy); /* avoid race conditions */
 		XSetErrorHandler(xerrordummy);
-        XSelectInput(dpy, c->win, NoEventMask);
+		XSelectInput(dpy, c->win, NoEventMask);
 		XConfigureWindow(dpy, c->win, CWBorderWidth, &wc); /* restore border */
 		XUngrabButton(dpy, AnyButton, AnyModifier, c->win);
 		setclientstate(c, WithdrawnState);
@@ -1847,11 +1847,11 @@ updategeom(void)
 		nn = j;
 		/* new monitors if nn > n */
 		for (i = n; i < nn; i++) {
-		        for (m = mons; m && m->next; m = m->next);
-		        if (m)
-		                m->next = createmon();
-		        else
-		                mons = createmon();
+				for (m = mons; m && m->next; m = m->next);
+				if (m)
+						m->next = createmon();
+				else
+						mons = createmon();
 		}
 		for (i = 0, m = mons; i < nn && m; m = m->next, i++)
 			if(i>=n
@@ -1868,18 +1868,18 @@ updategeom(void)
 			}
 		/* removed monitors if n > nn */
 		for (i = nn; i < n; i++) {
-		        for (m = mons; m && m->next; m = m->next);
-		        while ((c = m->clients)) {
-		                dirty = 1;
-		                m->clients = c->next;
-		                detachstack(c);
-		                c->mon = mons;
-		                attach(c);
-		                attachstack(c);
-		        }
-		        if (m == selmon)
-		                selmon = mons;
-		        cleanupmon(m);
+				for (m = mons; m && m->next; m = m->next);
+				while ((c = m->clients)) {
+						dirty = 1;
+						m->clients = c->next;
+						detachstack(c);
+						c->mon = mons;
+						attach(c);
+						attachstack(c);
+				}
+				if (m == selmon)
+						selmon = mons;
+				cleanupmon(m);
 		}
 		free(unique);
 	} else
@@ -1958,7 +1958,7 @@ updatesizehints(Client *c)
 	} else
 		c->maxa = c->mina = 0.0;
 	c->isfixed = (c->maxw && c->maxh && c->maxw == c->minw && c->maxh == c->minh);
-    c->hintsvalid = 1;
+	c->hintsvalid = 1;
 }
 
 void
@@ -2094,9 +2094,9 @@ zoom(const Arg *arg)
 {
 	Client *c = selmon->sel;
 
-    if (!selmon->lt[selmon->sellt]->arrange || !c || c->isfloating)
-            return;
-    if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
+	if (!selmon->lt[selmon->sellt]->arrange || !c || c->isfloating)
+			return;
+	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
 		return;
 	pop(c);
 }

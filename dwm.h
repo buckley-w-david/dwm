@@ -55,8 +55,8 @@ struct Client {
 	int bw, oldbw;
 	unsigned int tags;
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
-    int issteam;
-    char scratchkey;
+	int issteam;
+	char scratchkey;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -103,7 +103,7 @@ typedef struct {
 	unsigned int tags;
 	int isfloating;
 	int monitor;
-    const char scratchkey;
+	const char scratchkey;
 } Rule;
 
 /* function declarations */
