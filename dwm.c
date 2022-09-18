@@ -842,6 +842,7 @@ manage(Window w, XWindowAttributes *wa)
 	XWindowChanges wc;
 	int format;
 	unsigned int *ptags;
+	int *mon;
 	unsigned long n, extra;
 	Atom dt;
 
@@ -867,8 +868,18 @@ manage(Window w, XWindowAttributes *wa)
 			c->tags = *ptags;
 			XFree(ptags);
 		} 
+		if (XGetWindowProperty(dpy, c->win, dwmatom[DWMMon], 0L, 1L, False, XA_CARDINAL,
+				&dt, &format, &n, &extra, (unsigned char **)&mon) == Success && n == 1 && mon != NULL) {
+			for (Monitor* cmon = mons; cmon; cmon = cmon->next) {
+				if (cmon->num == *mon) {
+					c->mon = cmon;
+					break;
+				}
+			}
+			XFree(mon);
+		} 
 	}
-	settagsatom(c->win, c->tags);
+	settagsatom(c->win, c->tags, c->mon->num);
 
 	if (c->x + WIDTH(c) > c->mon->wx + c->mon->ww)
 		c->x = c->mon->wx + c->mon->ww - WIDTH(c);
@@ -1255,7 +1266,7 @@ sendmon(Client *c, Monitor *m)
 	detachstack(c);
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	settagsatom(c->win, c->tags);
+	settagsatom(c->win, c->tags, c->mon->num);
 	attach(c);
 	attachstack(c);
 	focus(NULL);
@@ -1400,6 +1411,7 @@ setup(void)
 	netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
 	netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
 	dwmatom[DWMTags] = XInternAtom(dpy, "_DWM_TAGS", False);
+	dwmatom[DWMMon] = XInternAtom(dpy, "_DWM_WIN", False);
 	/* init cursors */
 	cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
 	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
@@ -1508,7 +1520,7 @@ tag(const Arg *arg)
 {
 	if (selmon->sel && arg->ui & TAGMASK) {
 		selmon->sel->tags = arg->ui & TAGMASK;
-		settagsatom(selmon->sel->win, selmon->sel->tags);
+		settagsatom(selmon->sel->win, selmon->sel->tags, selmon->num);
 		focus(NULL);
 		arrange(selmon);
 	}
@@ -1701,7 +1713,7 @@ toggletag(const Arg *arg)
 	newtags = selmon->sel->tags ^ (arg->ui & TAGMASK);
 	if (newtags) {
 		selmon->sel->tags = newtags;
-		settagsatom(selmon->sel->win, selmon->sel->tags);
+		settagsatom(selmon->sel->win, selmon->sel->tags, selmon->num);
 		focus(NULL);
 		arrange(selmon);
 	}
@@ -2132,13 +2144,15 @@ banishpointer(const Arg *arg) {
 	XFlush(dpy);
 }
 
-// Save the current tags for this window so they can be used to restore
-// it later
-// TODO: Also save what monitor the window is on?
+// Save the current tags and monitor for this window so they can be used to restore it later
 void
-settagsatom(Window w, unsigned int tags) {
+settagsatom(Window w, unsigned int tags, int mon) {
 	XChangeProperty(dpy, w, dwmatom[DWMTags], XA_CARDINAL, 32,
 	                PropModeReplace, (unsigned char*)&tags, 1);
+
+	XChangeProperty(dpy, w, dwmatom[DWMMon], XA_CARDINAL, 32,
+	                PropModeReplace, (unsigned char*)&mon, 1);
+
 }
 
 /* My Functions */
@@ -2186,7 +2200,7 @@ void tagtagmon(const Arg *arg)
 		detachstack(c);
 		c->mon = m;
 		c->tags = arg->ui & TAGMASK;
-		settagsatom(c->win, c->tags);
+		settagsatom(c->win, c->tags, c->mon->num);
 		attach(c);
 		attachstack(c);
 		focus(NULL);

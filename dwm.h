@@ -25,7 +25,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { DWMTags, DWMLast }; /* DWM atoms */
+enum { DWMTags, DWMMon, DWMLast, }; /* DWM atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
@@ -167,6 +167,7 @@ static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setscratch(const Arg *arg);
+static void settagsatom(Window w, unsigned int tags, int win);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);

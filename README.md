@@ -11,7 +11,9 @@ Currently in sync with `970f37697358574e127019eb0ee2f5725ec05ce0` with a bunch o
  - [removeborder](https://github.com/buckley-w-david/dwm/commit/d2d65e3098edb419ad5fe6d84a8e28bc2dbe5366)
  - [statusallmons](https://github.com/buckley-w-david/dwm/commit/a53eec7a5c050df0f21b58db7ae97c7759cb0901)
  - [splitstatus](https://github.com/buckley-w-david/dwm/commit/9e60c9276734074c5047f97f1dd2abbfec4848e1) with changes to keep the window title, and position one of the splits immediatly after the title
- - [remember-tags](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) with a slight modification in the form of an missing `NULL` check.
+ - Modified [remember-tags](https://bitbucket.org/jokerboy/dwm/src/master/14-dwm-6.0-remember-tags.diff) 
+  - Slight modification in the form of an missing `NULL` check.
+  - Larger modification to support also saving and restoring what monitor a window was on.
 
 ## Custom Features
 
