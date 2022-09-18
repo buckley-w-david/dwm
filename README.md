@@ -2,6 +2,8 @@
 
 dwm fork with mainstream and custom patches.
 
+Currently in sync with `970f37697358574e127019eb0ee2f5725ec05ce0` with a bunch of patches/customizations applied on top.
+
 ## Mainstream Patches
  - [focusonclick](https://github.com/buckley-w-david/dwm/commit/4925f0387f27b7dcd1275a487839ea0dbba5ac76)
  - [renamedscratchpads](https://github.com/buckley-w-david/dwm/commit/7bcb0362c19b99876568710c7a49b0d76d87c1cb)
